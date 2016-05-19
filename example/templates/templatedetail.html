@@ -1,0 +1,16 @@
+
+<html>
+    {% load staticfiles %}
+    <head>
+     <link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/>
+    </head>
+     <body>
+        <p><a href="/accounts/logout" style='float:right;'>Logout</a></p>
+        <h2>{{template.title}}</h2>
+        {% for listitem in listitems%}
+        <p>{{listitem.text}}</p>
+        {% endfor %}
+        <hr>
+        <p><a href={% url 'copy_url' template.id %}>Click Here </a>to copy this template</p>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+<html>
+    {% load staticfiles %}
+    <head>
+        <title>Home</title>
+        <link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        Hello {{user.username}}. You are now logged in.
+        <p><a href="/accounts/logout" style='float:right;'>Logout</a></p>
+        <a href={% url 'template_url' %}>View All Templates</a><hr>
+        <p>The following are your checklists.</p>
+        {% for checklist in user.copy_set.all %}
+        <a href={% url 'detail_url' checklist.id %}>{{checklist.title}}</a><br />
+        {% endfor %}
+    </body>
+</html>

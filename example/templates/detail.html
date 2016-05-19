@@ -1,0 +1,16 @@
+{% load staticfiles %}
+     <link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/> 
+        <p><a href="/accounts/logout" style='float:right;'>Logout</a></p>
+     <a href={% url 'change_title_url' checklist.id %} style="float:center;">Change the title</a>
+     <a href={% url 'add_listitem_url' checklist.id %} style='display:block;'>Add an Item to Checklist</a>
+<form action={% url 'change_checklist_url' checklist.id%} method='post'>{% csrf_token %}
+    <h3>{{checklist.title}}</h3>
+    {% for listitem in checklist.listitemcopy_set.all %}
+        {% if listitem.value = True %}
+        <input type='checkbox' checked value='{{listitem.id}}' name='listitem'/>{{listitem.text}}<br />
+        {% else %}
+        <input type='checkbox' value='{{listitem.id}}' name='listitem'/>{{listitem.text}}<br />
+        {% endif %}
+    {% endfor %}
+    <input type='submit' value='Save' />
+</form>

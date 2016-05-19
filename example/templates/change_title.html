@@ -1,0 +1,10 @@
+{% load staticfiles %}
+<link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/>
+        <p><a href="/accounts/logout" style='float:right;'>Logout</a></p>
+
+<form action={% url 'change_title_url' checklist.id %} method='POST'>
+    {% csrf_token %}
+    <h3>Current Title - {{checklist.title}}</h3>
+    <input name='title' placeholder='New Title' type='text'/>
+    <input value='Change Title' type='submit'/>
+</form>

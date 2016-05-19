@@ -1,0 +1,18 @@
+<html>
+    {% load staticfiles %}
+    <head>
+     <link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        <div style="height:auto"><a href={% url 'loggedin_url'%}>View my Checklists</a>
+        <a href="/accounts/logout" style='float:right;clear:both;'>Logout</a></div>
+    <hr>
+        <a href='#'><h2 style='display:inline;'>Templates</h2></a>
+        {% for template in templates %}
+        <p>
+        <a href={% url 'template_detail_url' template.id %}>{{template.title}}</a>
+        <a href={% url 'copy_url' template.id %} style='float:right;clear:both;'>Copy this Checklist</a>
+        </p>
+        {% endfor %}
+    </body>
+</html>

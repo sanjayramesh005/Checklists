@@ -1,0 +1,18 @@
+<html>
+    {% load staticfiles %}
+    <head>
+     <link href="{% static 'style.css' %}" rel='stylesheet' type='text/css'/>
+    </head>
+    <body>
+        <form action="/accounts/auth/" method='POST'>
+            {% csrf_token %}
+            <label for='username'>Username</label>
+            <input type='text' placeholder='username' name='username' value='' />
+            <br/>
+            <label for='password'>Password</label>
+            <input type='password' placeholder='password' name='password' value='' />
+            <br/>
+            <input type='submit' value='Login' />
+        </form>
+    </body>
+</html>
