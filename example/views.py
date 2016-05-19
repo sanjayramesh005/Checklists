@@ -7,9 +7,12 @@ from django.core.urlresolvers import reverse
 # Create your views here.
 
 def login_view(request):
-    c = {}
-    c.update(csrf(request))
-    return render(request,"login.html",c)
+    if not request.user.is_authenticated():
+        c = {}
+        c.update(csrf(request))
+        return render(request,"login.html",c)
+    else:
+        return HttpResponseRedirect("/accounts/loggedin/")
 
 def auth_view(request):
     if (request.method=='POST'):
@@ -41,13 +44,13 @@ def logout_view(request):
     return render(request,"logout.html",{})
 
 def detail_view(request,checklist_id):
-    checklist = Copy.objects.get(id=checklist_id)
+    checklist = get_object_or_404(Copy,id=checklist_id)
     c = {'checklist' : checklist}
     c.update(csrf(request))
     return render(request,'detail.html',c)
 
 def change_checklist_view(request,checklist_id):
-    checklist = Copy.objects.get(pk=checklist_id)
+    checklist = get_object_or_404(Copy,id=checklist_id)
     for listitem in checklist.listitemcopy_set.all():
         if str(listitem.id) in request.POST.getlist('listitem'):
             listitem.value=True
@@ -59,7 +62,7 @@ def change_checklist_view(request,checklist_id):
     return HttpResponseRedirect('/accounts/loggedin/')
 
 def copy_view(request,checklist_id):
-    template = Template.objects.get(pk=checklist_id)
+    template = get_object_or_404(Template,pk=checklist_id)
     user = request.user
     c = Copy(template=template,user=user,title=template.title)
     c.save()
@@ -74,7 +77,7 @@ def show_templates_view(request):
     return render(request,'templates.html',{'templates':templates})
 
 def template_detail_view(request,checklist_id):
-    template = Template.objects.get(pk=checklist_id)
+    template = get_object_or_404(Template,pk=checklist_id)
     listitems = template.listitem_set.all()
     return render(request,'templatedetail.html',{'template':template,'listitems':listitems})
 
